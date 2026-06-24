@@ -1,0 +1,66 @@
+---
+export interface Props {
+  producto: {
+    id: string;
+    idProducto: number;
+    nombre: string;
+    artista: string;
+    precio: number;
+    categoria: string;
+    descripcion: string;
+    imagen: string;
+    destacado: boolean;
+    stock: string;
+  };
+}
+
+const { producto } = Astro.props;
+
+// Formatear precio a ARS
+const precioFormateado = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  maximumFractionDigits: 0
+}).format(producto.precio);
+
+const whatsappNumber = '584225777197'; // Número base indicado por el usuario
+const whatsappText = encodeURIComponent(`¡Hola! Me interesa este producto: ${producto.idProducto} - ${producto.nombre}. ¿Tienen disponibilidad?`);
+const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappText}`;
+---
+
+<div class="bg-surface-container-high border border-outline-variant luxury-grain product-card-glow relative group flex flex-col h-full">
+  {producto.stock === "Último" ? (
+    <div class="absolute top-sm left-sm z-10 bg-[#FFC107] text-black text-[10px] font-bold px-sm py-[2px] uppercase tracking-widest">
+      Último disponible
+    </div>
+  ) : producto.destacado ? (
+    <div class="absolute top-sm left-sm z-10 bg-primary-fixed-dim text-on-primary-fixed text-[10px] font-bold px-sm py-[2px] uppercase tracking-widest">
+      Destacado
+    </div>
+  ) : null}
+  <button class="absolute top-sm right-sm z-10 text-on-surface-variant hover:text-primary transition-colors">
+    <span class="material-symbols-outlined text-[20px]">favorite</span>
+  </button>
+  <div class="aspect-square overflow-hidden bg-surface-dim flex items-center justify-center p-md">
+    <img 
+      class="w-full h-full object-cover shadow-2xl group-hover:scale-105 transition-transform duration-500" 
+      alt={`${producto.nombre} - ${producto.artista}`} 
+      src={producto.imagen}
+    >
+  </div>
+  <div class="p-md flex flex-col flex-grow">
+    <h4 class="font-headline-md text-primary text-[18px] mb-xs uppercase">{producto.nombre}</h4>
+    <p class="font-body-md text-on-surface-variant text-sm mb-md italic">{producto.artista}</p>
+    <div class="mt-auto flex justify-between items-center">
+      <span class="font-headline-md text-on-surface">{precioFormateado}</span>
+      <a 
+        href={whatsappLink} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="bg-secondary-container text-white text-sm px-sm py-2 font-label-md uppercase tracking-wider transform transition-all duration-200 hover:scale-105 hover:font-bold active:scale-95 inline-flex items-center justify-center"
+      >
+        <span>Comprar</span><i class="fab fa-whatsapp ml-2"></i>
+      </a>
+    </div>
+  </div>
+</div>

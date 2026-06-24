@@ -1,0 +1,251 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getProductos } from '../lib/airtable.js';
+import '../styles/global.css';
+
+let productos = [];
+try {
+  productos = await getProductos();
+} catch (e) {
+  console.error('Error al obtener productos de Airtable:', e.message);
+}
+const destacados = productos.filter(p => p.destacado);
+const resto = productos.filter(p => !p.destacado);
+---
+
+<Layout title="Vinilovers - Tienda de Vinilos">
+
+  <Header />
+
+  <!-- ============================================================ -->
+  <!-- BEGIN: Hero Section                                           -->
+  <!-- ============================================================ -->
+  <section class="relative flex items-end pt-20 overflow-hidden" style="height: 85vh; min-height: 580px;">
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <video class="w-full h-full object-cover" autoplay muted loop playsinline poster="/portada-video-hero-home.svg">
+        <source src="/video-fondo-hero.webm" type="video/webm">
+        Tu navegador no soporta video HTML5.
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/40"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-24">
+      <div class="max-w-5xl">
+        <p class="font-condensed font-medium text-2xl md:text-3xl uppercase tracking-wide mb-6"
+          style="line-height: 1.1; color: #a3211c;">No es solo música,</p>
+        <h1 class="text-primary uppercase leading-[0.9] tracking-tight"
+          style="font-family: 'Amnestia', sans-serif; font-size: clamp(3rem, 9vw, 7.5rem);">
+          ES QUIENES<span class="block mt-6">SOMOS.</span>
+        </h1>
+        <div class="mt-8">
+          <a href="#vinilos"
+            class="inline-flex items-center gap-2 font-bold py-3 px-8 rounded-sm uppercase tracking-wider transition-colors text-sm border-2"
+            style="color: #a3211c; border-color: #a3211c;"
+            onmouseover="this.style.backgroundColor='#a3211c';this.style.color='#fff'"
+            onmouseout="this.style.backgroundColor='transparent';this.style.color='#a3211c'">
+            Ver colección <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: Hero Section -->
+
+  <!-- ============================================================ -->
+  <!-- BEGIN: Marquee                                                -->
+  <!-- ============================================================ -->
+  <div class="py-4 border-y overflow-hidden flex whitespace-nowrap bg-surface border-surface-container">
+    <div class="animate-marquee flex gap-8 items-center text-primary font-display font-bold text-sm tracking-[0.2em] uppercase">
+      <span>ROCK</span> <span class="text-[#802020]">•</span> <span>POP</span> <span class="text-[#802020]">•</span>
+      <span>SALSA</span> <span class="text-[#802020]">•</span> <span>ACCESORIOS</span> <span class="text-[#802020]">•</span>
+      <span>TOCADISCOS</span> <span class="text-[#802020]">•</span> <span>ROPA</span> <span class="text-[#802020]">•</span>
+      <span>ROCK</span> <span class="text-[#802020]">•</span> <span>POP</span> <span class="text-[#802020]">•</span>
+      <span>SALSA</span> <span class="text-[#802020]">•</span> <span>ACCESORIOS</span> <span class="text-[#802020]">•</span>
+      <span>TOCADISCOS</span> <span class="text-[#802020]">•</span> <span>ROPA</span> <span class="text-[#802020]">•</span>
+    </div>
+    <div aria-hidden="true" class="animate-marquee flex gap-8 items-center text-primary font-display font-bold text-sm tracking-[0.2em] uppercase">
+      <span class="ml-8">ROCK</span> <span class="text-[#802020]">•</span> <span>POP</span> <span class="text-[#802020]">•</span>
+      <span>SALSA</span> <span class="text-[#802020]">•</span> <span>ACCESORIOS</span> <span class="text-[#802020]">•</span>
+      <span>TOCADISCOS</span> <span class="text-[#802020]">•</span> <span>ROPA</span> <span class="text-[#802020]">•</span>
+      <span>ROCK</span> <span class="text-[#802020]">•</span> <span>POP</span> <span class="text-[#802020]">•</span>
+      <span>SALSA</span> <span class="text-[#802020]">•</span> <span>ACCESORIOS</span> <span class="text-[#802020]">•</span>
+      <span>TOCADISCOS</span> <span class="text-[#802020]">•</span> <span>ROPA</span> <span class="text-[#802020]">•</span>
+    </div>
+  </div>
+  <!-- END: Marquee -->
+
+  <!-- ============================================================ -->
+  <!-- BEGIN: #vinilos — Catálogo de Vinilos                        -->
+  <!-- ============================================================ -->
+  <section id="vinilos" class="scroll-mt-24 bg-background">
+    <!-- Section Header -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div class="max-w-2xl">
+          <span class="text-[#802020] font-condensed font-semibold tracking-[0.3em] text-xs uppercase block mb-3">
+            <i class="fas fa-compact-disc mr-2"></i>Colección
+          </span>
+          <h2 class="font-display font-bold uppercase text-on-surface mb-4"
+            style="font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em;">
+            Catálogo de <span class="text-primary">Vinilos</span>
+          </h2>
+          <p class="text-on-surface-variant text-base md:text-lg leading-relaxed">
+            Cada surco cuenta una historia. Descubre nuestra colección curada de vinilos originales —
+            desde rarezas de coleccionista hasta los clásicos que definieron una era.
+            Sonido puro, sin filtros, tal como fue concebido para sonar.
+          </p>
+        </div>
+        <div class="flex items-center gap-sm shrink-0">
+          <span class="font-label-md text-on-surface-variant uppercase text-[11px] tracking-widest">Ordenar por:</span>
+          <select class="bg-surface-container border border-outline-variant text-on-surface text-[11px] uppercase tracking-wider py-xs px-md focus:border-primary-container focus:ring-0 transition-all cursor-pointer">
+            <option>Relevancia</option>
+            <option>Novedades</option>
+            <option>Precio: menor a mayor</option>
+            <option>Precio: mayor a menor</option>
+            <option>Ediciones raras</option>
+          </select>
+        </div>
+      </div>
+      <!-- Decorative separator -->
+      <div class="mt-10 flex items-center gap-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-[#802020] via-surface-bright to-transparent"></div>
+        <i class="fas fa-record-vinyl text-primary opacity-40"></i>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-md">
+        {destacados.map(producto => <ProductCard {producto} />)}
+        {resto.map(producto => <ProductCard {producto} />)}
+      </div>
+    </div>
+  </section>
+  <!-- END: #vinilos -->
+
+  <!-- ============================================================ -->
+  <!-- BEGIN: #galeria — Galería de Fotos                           -->
+  <!-- ============================================================ -->
+  <section id="galeria" class="scroll-mt-24 bg-surface">
+    <!-- Section Header -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-[#802020] font-condensed font-semibold tracking-[0.3em] text-xs uppercase block mb-3">
+          <i class="fas fa-camera mr-2"></i>Nuestra tienda
+        </span>
+        <h2 class="font-display font-bold uppercase text-on-surface mb-4"
+          style="font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em;">
+          Galería de <span class="text-primary">Fotos</span>
+        </h2>
+        <p class="text-on-surface-variant text-base leading-relaxed">
+          Un vistazo a lo que nos define. Música, textura, carácter —
+          cada imagen captura la esencia de Vinilovers.
+        </p>
+      </div>
+      <div class="mt-10 flex items-center gap-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-transparent via-surface-bright to-transparent"></div>
+        <i class="fas fa-camera text-primary opacity-40"></i>
+        <div class="h-px flex-1 bg-gradient-to-r from-surface-bright to-transparent"></div>
+      </div>
+    </div>
+
+    <!-- Masonry Gallery Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div class="gallery-masonry">
+
+        <!-- Item 1 — tall -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgCCyye-zFj1HggjT8GjE-IZ8tFI7pWY6esMmJuX1i18K790OgFXuN5cNGswUs5zpjNLEVsf4MxMhADYlwjqcBwqyBB9vDy9r0fq9_-vv-iURo2DsaLSQvHicwWeEENkuUIjnpfwaTPaW-1cyT_IypoBW5ZUB3Yek69PiA9a3UwOuubIxzAyMXJ3x9L_pcCeAeA4ZsjWtyPcZ3y9KyfJwSEsgh7CIGzhd_x_rkH44rE3J1Ky7WyU8dZnx2nd-_p-qpphnU0cb9MrI"
+            alt="Abbey Road vinyl" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Abbey Road · The Beatles</span>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBniLYIIB1jBDH6IFTmpHRXgavDGCn01cPYDo1TReY_TVRFR4-45q4zUnSIQpgqGvZJDc7yLgcudCQVWV1xPlBTOLQ28O2tB3Rr12EeKhRs4yoQuK6irzd8161ZDTrlNB9-JSKno1_XtzbHU3hyjgZIl_FTgMYMAZDxuGAsO_7a1XKSQmWOJDeOV0U-7yv8eiXBPEd5tRv1A3zJST4sABxcid3VlHt8gZFJTGWEhh2fLEo8If9Ff98kpJLAH1ucQTIwsaqF1k94Weo"
+            alt="Kind of Blue vinyl" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Kind of Blue · Miles Davis</span>
+          </div>
+        </div>
+
+        <!-- Item 3 — tocadiscos local image -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
+          <img src="/TD00007-TOCADISCOS-COTSOCO-BROWN.jpg"
+            alt="Tocadiscos Cotsoco Brown" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Cotsoco Brown · Tocadiscos</span>
+          </div>
+        </div>
+
+        <!-- Item 4 — tall -->
+        <div class="gallery-item gallery-item--tall group overflow-hidden border border-surface-bright relative">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKK6ROKpgqfHe5AKce0NTRqv3RV8D-MUUcorsKl9Z1uq-HMulswuKZi9yLLR9-8Jhk1JGp_kAoIRPwRZVb52licfrykCaMZteDMz5uGgaERyzS7E25B32lIzaKkAJJJAoxec2b3h7xc3j0znyBLir055vOHwKDrj4YvLtJRDkwSzzjFyyPr-z8gtz7d5oWORGkEMIozzBG0Akq46Ui1cOcZcT9UAsKOm7JMqojRBEmoZBXgo8pQz1a1yoRzOpPdHMtlasdDrGBtpo"
+            alt="Led Zeppelin IV" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Led Zeppelin IV</span>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_ET4lo1fLHMtvtVVOhSela0CTeHfgtsd_e5EmkYSgwS3TW9pvAtfzjYIltY9UaMVxmTwJR1bUdfYT9iM0FOElAYzsL9P1gnIYzmJicXIGZ7RG5mxx3Ng8yfYH7g6nYZ8oxBrgxJxqE4eT2vkC0v3iF2lBSxh3rzywqGTMrwVsaA5e2WRm_uvbkuxpyDoxzyjLi4yWxioW_PXIks1rscPozIQ3COVz64Y_PiiXZCLo5yasqtqdjkZrF_8REmZfNK9l50o_s08vsqw"
+            alt="The Frontline - Prince" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">The Frontline · Prince</span>
+          </div>
+        </div>
+
+        <!-- Item 6 — tocadiscos local image tall -->
+        <div class="gallery-item gallery-item--tall group overflow-hidden border border-surface-bright relative">
+          <img src="/TD00004-TOCADISCOS-TANLANIN-NEGRO.png"
+            alt="Tocadiscos Tanlanin Negro" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Tanlanin Negro · Tocadiscos</span>
+          </div>
+        </div>
+
+        <!-- Item 7 -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVL_dU3zLjv1as_Am9IFfjUr5QaKK7WV5M5hTyun7svkd2MNifBAKEiMx7gxC7HG0fHyUPm_Kp254oQt8XLv3QtIXxzigY2vH1jCX7jcbpH3E4EAiwAIRZaCx1TqBZwRy_51oAX1MKPkfRvdD62vtoDk4X6Il__YZ9ROzaIgZO9mXP8MVt3Hy5-H1liTkZkPZNiCzfXW9NR7LiAIdNn-95eCGtOkU8quRdDec8nTybvfqjXGsBm-hRUB9ff94ytm15bRl1JEqq1ww"
+            alt="Marshall Stanmore III" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Marshall Stanmore III</span>
+          </div>
+        </div>
+
+        <!-- Item 8 -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVCDf_vrAIxcpjxRKbKgxQY8WSzIZ6ysA8ePD6YBbazlJpekQa4P7TgxID4bkMnLS7R1BJ0VIQ7b_2XpAG__uuBSnzOecID-NFzATVdgdwr8iT0JsiWN7TBQgz_xlxbw0u7bKLzmMv1FaOlf5FlDfULNBeuD31UuILY9OU5EzPPVOCCUo4VJ2llcyH0CLQ16xy5mUCyF2m8qcMtQYGBVqPrctbjBcC5wQD1k66qon5Wes43h6qJ7H-XnwuCNYKg_NPpzFipV9XLE"
+            alt="Nirvana Grunge Tee" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Grunge Classic · Nirvana</span>
+          </div>
+        </div>
+
+        <!-- Item 9 — logo -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative bg-surface-container flex items-center justify-center p-8">
+          <img src="/logo-cuadrado.jpg"
+            alt="Vinilovers Logo" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700">
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-12 text-center">
+        <a href="https://www.instagram.com/viniloversbqto" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-3 font-condensed font-semibold uppercase tracking-widest text-sm border border-surface-bright px-8 py-3 text-on-surface-variant hover:text-primary hover:border-primary transition-all duration-300 rounded-sm">
+          <i class="fab fa-instagram text-lg"></i> Ver más en Instagram
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- END: #galeria -->
+
+  <Footer />
+
+</Layout>

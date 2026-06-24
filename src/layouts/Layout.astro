@@ -1,0 +1,32 @@
+---
+export interface Props {
+  title?: string;
+}
+const { title = 'Vinilovers - Tienda de Vinilos' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="description" content="Vinilovers — Tu destino premium para vinilos auténticos, tocadiscos de alta fidelidad y merchandising musical exclusivo.">
+  <title>{title}</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&family=Oswald:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Material Symbols (used by vinyl catalog cards) -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" href="/favicoin.png" type="image/png">
+</head>
+
+<body class="font-sans antialiased text-on-surface bg-surface overflow-x-hidden">
+  <slot />
+</body>
+
+</html>
