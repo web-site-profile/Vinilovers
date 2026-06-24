@@ -1,0 +1,55 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Habilita el backend local para pruebas sin Netlify (comentar en producción)
+local_backend: true
+
+# Almacenamiento de medios
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Colecciones
+collections:
+
+  # ── Colección A: Categorías ────────────────────────────────────────────────
+  - name: "categorias"
+    label: "Categorías"
+    label_singular: "Categoría"
+    folder: "src/content/categorias"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Nombre de la Categoría", widget: "string" }
+      - { name: "mostrar", label: "Mostrar en menú y página principal", widget: "boolean", default: true }
+      - { name: "orden", label: "Orden de aparición", widget: "number", default: 1, value_type: "int" }
+
+  # ── Colección B: Productos ─────────────────────────────────────────────────
+  - name: "productos"
+    label: "Productos"
+    label_singular: "Producto"
+    folder: "src/content/productos"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Nombre del Producto", widget: "string" }
+      - { name: "artista", label: "Artista / Banda", widget: "string" }
+      - { name: "precio", label: "Precio ($)", widget: "number", value_type: "float" }
+      - name: "categoria"
+        label: "Categoría"
+        widget: "relation"
+        collection: "categorias"
+        search_fields: ["title"]
+        value_field: "title"
+        display_fields: ["title"]
+      - { name: "image", label: "Imagen del Producto", widget: "image" }
+      - { name: "activo", label: "Mostrar en tienda", widget: "boolean", default: true }
+      - { name: "destacado", label: "Destacado", widget: "boolean", default: false }
+      - name: "stock"
+        label: "Estado de Stock"
+        widget: "select"
+        options: ["Disponible", "Agotado", "Último"]
+        default: "Disponible"
+      - { name: "body", label: "Descripción del producto", widget: "markdown", required: false }

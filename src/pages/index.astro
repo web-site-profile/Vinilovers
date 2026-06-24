@@ -3,41 +3,27 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ProductCard from '../components/ProductCard.astro';
-import { getProductos } from '../lib/airtable.js';
+import { getCollection } from 'astro:content';
 import '../styles/global.css';
 
-let productos = [];
-try {
-  productos = await getProductos();
-} catch (e) {
-  console.error('Error al obtener productos de Airtable:', e.message);
-}
+// ── Leer categorías y productos desde Content Collections ──────────────────
+const todasCategorias = await getCollection('categorias');
+const categorias = todasCategorias
+  .filter(c => c.data.mostrar)
+  .sort((a, b) => a.data.orden - b.data.orden);
 
-// Detecta el tipo de producto por el nombre (hasta tener campo Categoria en Airtable)
-const TIPOS = [
-  { palabras: ['vinilo', 'vinyl', 'lp ', ' lp', 'album', 'álbum', 'disco'],   orden: 0 },
-  { palabras: ['tocadiscos', 'tornamesa', 'turntable', 'td'],                  orden: 1 },
-  { palabras: ['accesorio', 'aguja', 'fono', 'limpia', 'cartridge', 'stylus'], orden: 2 },
-  { palabras: ['ropa', 'camiseta', 'tshirt', 'tee', 'merch', 'hoodie'],        orden: 3 },
-];
+const todosProductos = await getCollection('productos');
 
-function prioridadNombre(nombre) {
-  if (!nombre) return 99;
-  const n = nombre.toLowerCase();
-  for (const tipo of TIPOS) {
-    if (tipo.palabras.some(p => n.includes(p))) return tipo.orden;
-  }
-  return 98;
-}
-
-// Ordenar: primero por tipo detectado del nombre, luego destacados primero dentro del grupo
-const productosOrdenados = [...productos].sort((a, b) => {
-  const tipoA = prioridadNombre(a.nombre);
-  const tipoB = prioridadNombre(b.nombre);
-  if (tipoA !== tipoB) return tipoA - tipoB;
-  if (b.destacado !== a.destacado) return b.destacado ? 1 : -1;
-  // Dentro del mismo tipo, orden alfabético
-  return (a.nombre || '').localeCompare(b.nombre || '', 'es');
+// Por cada categoría: filtrar sus productos activos, ordenados por artista A→Z
+const productosPorCategoria = categorias.map(cat => {
+  const prods = todosProductos
+    .filter(p => p.data.activo && p.data.categoria === cat.data.title)
+    .sort((a, b) => {
+      // Destacados primero, luego alfabético por artista
+      if (b.data.destacado !== a.data.destacado) return b.data.destacado ? 1 : -1;
+      return (a.data.artista || '').localeCompare(b.data.artista || '', 'es');
+    });
+  return { cat, prods };
 });
 ---
 
@@ -65,7 +51,7 @@ const productosOrdenados = [...productos].sort((a, b) => {
           ES QUIENES<span class="block mt-6">SOMOS.</span>
         </h1>
         <div class="mt-8">
-          <a href="#vinilos"
+          <a href={`#cat-${categorias[0]?.data.title.toLowerCase() ?? 'disco'}`}
             class="inline-flex items-center gap-2 font-bold py-3 px-8 rounded-sm uppercase tracking-wider transition-colors text-sm border-2"
             style="color: #a3211c; border-color: #a3211c;"
             onmouseover="this.style.backgroundColor='#a3211c';this.style.color='#fff'"
@@ -102,43 +88,64 @@ const productosOrdenados = [...productos].sort((a, b) => {
   <!-- END: Marquee -->
 
   <!-- ============================================================ -->
-  <!-- BEGIN: #vinilos — Catálogo de Vinilos                        -->
+  <!-- BEGIN: Catálogo — sección por categoría                       -->
   <!-- ============================================================ -->
-  <section id="vinilos" class="scroll-mt-24 bg-background">
-    <!-- Section Header -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-        <div class="max-w-2xl">
-          <span class="text-[#802020] font-condensed font-semibold tracking-[0.3em] text-xs uppercase block mb-3">
-            <i class="fas fa-compact-disc mr-2"></i>Colección
-          </span>
-          <h2 class="font-display font-bold uppercase text-on-surface mb-4 whitespace-nowrap"
-            style="font-size: clamp(1.6rem, 3.5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em;">
-            Catálogo de <span class="text-primary">Productos</span>
-          </h2>
-          <p class="text-on-surface-variant text-base md:text-lg leading-relaxed">
-            Baja la aguja, sube el volumen y desconéctate. Tu música no debería vivir solo en tu teléfono.
-            Encuentra el disco que te eriza la piel, el tocadiscos para hacerlo sonar como se debe
-            y todo lo que necesitas para que tu espacio respire música.
-          </p>
+  {productosPorCategoria.map(({ cat, prods }, idx) => (
+    <section id={`cat-${cat.data.title.toLowerCase()}`} class={`scroll-mt-24 ${idx % 2 === 0 ? 'bg-background' : 'bg-surface'}`}>
+      <!-- Section Header -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div class="max-w-2xl">
+            <span class="text-[#802020] font-condensed font-semibold tracking-[0.3em] text-xs uppercase block mb-3">
+              <i class="fas fa-compact-disc mr-2"></i>Colección
+            </span>
+            <h2 class="font-display font-bold uppercase text-on-surface mb-4 whitespace-nowrap"
+              style="font-size: clamp(1.6rem, 3.5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em;">
+              Catálogo de <span class="text-primary">{cat.data.title}</span>
+            </h2>
+            {idx === 0 && (
+              <p class="text-on-surface-variant text-base md:text-lg leading-relaxed">
+                Baja la aguja, sube el volumen y desconéctate. Tu música no debería vivir solo en tu teléfono.
+                Encuentra el disco que te eriza la piel, el tocadiscos para hacerlo sonar como se debe
+                y todo lo que necesitas para que tu espacio respire música.
+              </p>
+            )}
+          </div>
         </div>
+        <!-- Decorative separator -->
+        <div class="mt-10 flex items-center gap-4">
+          <div class="h-px flex-1 bg-gradient-to-r from-[#802020] via-surface-bright to-transparent"></div>
+          <i class="fas fa-record-vinyl text-primary opacity-40"></i>
+        </div>
+      </div>
 
+      <!-- Product Grid -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        {prods.length > 0 ? (
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-md">
+            {prods.map(p => (
+              <ProductCard producto={{
+                id: p.id,
+                idProducto: p.id,
+                nombre: p.data.title,
+                artista: p.data.artista,
+                precio: p.data.precio,
+                categoria: p.data.categoria,
+                descripcion: '',
+                imagen: p.data.image,
+                destacado: p.data.destacado,
+                stock: p.data.stock,
+              }} />
+            ))}
+          </div>
+        ) : (
+          <p class="text-on-surface-variant text-sm italic">No hay productos disponibles en esta categoría.</p>
+        )}
       </div>
-      <!-- Decorative separator -->
-      <div class="mt-10 flex items-center gap-4">
-        <div class="h-px flex-1 bg-gradient-to-r from-[#802020] via-surface-bright to-transparent"></div>
-        <i class="fas fa-record-vinyl text-primary opacity-40"></i>
-      </div>
-    </div>
+    </section>
+  ))}
+  <!-- END: Catálogo -->
 
-    <!-- Product Grid -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-md">
-        {productosOrdenados.map(producto => <ProductCard {producto} />)}
-      </div>
-    </div>
-  </section>
-  <!-- END: #vinilos -->
 
   <!-- ============================================================ -->
   <!-- BEGIN: #galeria — Galería de Fotos                           -->

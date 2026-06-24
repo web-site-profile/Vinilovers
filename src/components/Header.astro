@@ -1,3 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+
+// Leer categorías activas ordenadas por `orden`
+const todasCategorias = await getCollection('categorias');
+const categorias = todasCategorias
+  .filter(c => c.data.mostrar)
+  .sort((a, b) => a.data.orden - b.data.orden);
+---
+
 <header class="fixed w-full z-50 bg-surface/90 backdrop-blur-md border-b border-surface-bright">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-20">
@@ -15,15 +25,28 @@
       <!-- Desktop Menu -->
       <nav class="hidden md:flex space-x-8">
         <a class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider pb-1" href="#" id="nav-home">Home</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider pb-1" href="#vinilos">Catálogo</a>
+        {categorias.map(cat => (
+          <a
+            class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider pb-1"
+            href={`#cat-${cat.data.title.toLowerCase()}`}
+          >
+            {cat.data.title}
+          </a>
+        ))}
         <a class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider pb-1" href="#galeria">Galería</a>
       </nav>
-      <!-- Icons removed per request -->
     </div>
     <div id="mobile-menu" class="md:hidden hidden border-t border-surface-bright bg-surface">
       <nav class="flex flex-col px-4 py-4 space-y-2">
         <a class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider" href="#" id="nav-home-mobile">Home</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider" href="#vinilos">Catálogo</a>
+        {categorias.map(cat => (
+          <a
+            class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider"
+            href={`#cat-${cat.data.title.toLowerCase()}`}
+          >
+            {cat.data.title}
+          </a>
+        ))}
         <a class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-sm uppercase tracking-wider" href="#galeria">Galería</a>
       </nav>
     </div>
@@ -32,7 +55,7 @@
 </header>
 
 <script>
-  // Mobile menu toggle — previously handled by loadComponents.js
+  // Mobile menu toggle
   const menuBtn = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
   if (menuBtn && mobileMenu) {
