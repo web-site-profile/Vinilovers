@@ -12,8 +12,33 @@ try {
 } catch (e) {
   console.error('Error al obtener productos de Airtable:', e.message);
 }
-const destacados = productos.filter(p => p.destacado);
-const resto = productos.filter(p => !p.destacado);
+
+// Detecta el tipo de producto por el nombre (hasta tener campo Categoria en Airtable)
+const TIPOS = [
+  { palabras: ['vinilo', 'vinyl', 'lp ', ' lp', 'album', 'álbum', 'disco'],   orden: 0 },
+  { palabras: ['tocadiscos', 'tornamesa', 'turntable', 'td'],                  orden: 1 },
+  { palabras: ['accesorio', 'aguja', 'fono', 'limpia', 'cartridge', 'stylus'], orden: 2 },
+  { palabras: ['ropa', 'camiseta', 'tshirt', 'tee', 'merch', 'hoodie'],        orden: 3 },
+];
+
+function prioridadNombre(nombre) {
+  if (!nombre) return 99;
+  const n = nombre.toLowerCase();
+  for (const tipo of TIPOS) {
+    if (tipo.palabras.some(p => n.includes(p))) return tipo.orden;
+  }
+  return 98;
+}
+
+// Ordenar: primero por tipo detectado del nombre, luego destacados primero dentro del grupo
+const productosOrdenados = [...productos].sort((a, b) => {
+  const tipoA = prioridadNombre(a.nombre);
+  const tipoB = prioridadNombre(b.nombre);
+  if (tipoA !== tipoB) return tipoA - tipoB;
+  if (b.destacado !== a.destacado) return b.destacado ? 1 : -1;
+  // Dentro del mismo tipo, orden alfabético
+  return (a.nombre || '').localeCompare(b.nombre || '', 'es');
+});
 ---
 
 <Layout title="Vinilovers - Tienda de Vinilos">
@@ -87,26 +112,17 @@ const resto = productos.filter(p => !p.destacado);
           <span class="text-[#802020] font-condensed font-semibold tracking-[0.3em] text-xs uppercase block mb-3">
             <i class="fas fa-compact-disc mr-2"></i>Colección
           </span>
-          <h2 class="font-display font-bold uppercase text-on-surface mb-4"
-            style="font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em;">
-            Catálogo de <span class="text-primary">Vinilos</span>
+          <h2 class="font-display font-bold uppercase text-on-surface mb-4 whitespace-nowrap"
+            style="font-size: clamp(1.6rem, 3.5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em;">
+            Catálogo de <span class="text-primary">Productos</span>
           </h2>
           <p class="text-on-surface-variant text-base md:text-lg leading-relaxed">
-            Cada surco cuenta una historia. Descubre nuestra colección curada de vinilos originales —
-            desde rarezas de coleccionista hasta los clásicos que definieron una era.
-            Sonido puro, sin filtros, tal como fue concebido para sonar.
+            Baja la aguja, sube el volumen y desconéctate. Tu música no debería vivir solo en tu teléfono.
+            Encuentra el disco que te eriza la piel, el tocadiscos para hacerlo sonar como se debe
+            y todo lo que necesitas para que tu espacio respire música.
           </p>
         </div>
-        <div class="flex items-center gap-sm shrink-0">
-          <span class="font-label-md text-on-surface-variant uppercase text-[11px] tracking-widest">Ordenar por:</span>
-          <select class="bg-surface-container border border-outline-variant text-on-surface text-[11px] uppercase tracking-wider py-xs px-md focus:border-primary-container focus:ring-0 transition-all cursor-pointer">
-            <option>Relevancia</option>
-            <option>Novedades</option>
-            <option>Precio: menor a mayor</option>
-            <option>Precio: mayor a menor</option>
-            <option>Ediciones raras</option>
-          </select>
-        </div>
+
       </div>
       <!-- Decorative separator -->
       <div class="mt-10 flex items-center gap-4">
@@ -118,8 +134,7 @@ const resto = productos.filter(p => !p.destacado);
     <!-- Product Grid -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-md">
-        {destacados.map(producto => <ProductCard {producto} />)}
-        {resto.map(producto => <ProductCard {producto} />)}
+        {productosOrdenados.map(producto => <ProductCard {producto} />)}
       </div>
     </div>
   </section>
@@ -155,82 +170,40 @@ const resto = productos.filter(p => !p.destacado);
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
       <div class="gallery-masonry">
 
-        <!-- Item 1 — tall -->
-        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgCCyye-zFj1HggjT8GjE-IZ8tFI7pWY6esMmJuX1i18K790OgFXuN5cNGswUs5zpjNLEVsf4MxMhADYlwjqcBwqyBB9vDy9r0fq9_-vv-iURo2DsaLSQvHicwWeEENkuUIjnpfwaTPaW-1cyT_IypoBW5ZUB3Yek69PiA9a3UwOuubIxzAyMXJ3x9L_pcCeAeA4ZsjWtyPcZ3y9KyfJwSEsgh7CIGzhd_x_rkH44rE3J1Ky7WyU8dZnx2nd-_p-qpphnU0cb9MrI"
-            alt="Abbey Road vinyl" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">Abbey Road · The Beatles</span>
-          </div>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBniLYIIB1jBDH6IFTmpHRXgavDGCn01cPYDo1TReY_TVRFR4-45q4zUnSIQpgqGvZJDc7yLgcudCQVWV1xPlBTOLQ28O2tB3Rr12EeKhRs4yoQuK6irzd8161ZDTrlNB9-JSKno1_XtzbHU3hyjgZIl_FTgMYMAZDxuGAsO_7a1XKSQmWOJDeOV0U-7yv8eiXBPEd5tRv1A3zJST4sABxcid3VlHt8gZFJTGWEhh2fLEo8If9Ff98kpJLAH1ucQTIwsaqF1k94Weo"
-            alt="Kind of Blue vinyl" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">Kind of Blue · Miles Davis</span>
-          </div>
-        </div>
-
-        <!-- Item 3 — tocadiscos local image -->
-        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
-          <img src="/TD00007-TOCADISCOS-COTSOCO-BROWN.jpg"
-            alt="Tocadiscos Cotsoco Brown" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">Cotsoco Brown · Tocadiscos</span>
-          </div>
-        </div>
-
-        <!-- Item 4 — tall -->
+        <!-- Item 1 — Tienda foto 1 -->
         <div class="gallery-item gallery-item--tall group overflow-hidden border border-surface-bright relative">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKK6ROKpgqfHe5AKce0NTRqv3RV8D-MUUcorsKl9Z1uq-HMulswuKZi9yLLR9-8Jhk1JGp_kAoIRPwRZVb52licfrykCaMZteDMz5uGgaERyzS7E25B32lIzaKkAJJJAoxec2b3h7xc3j0znyBLir055vOHwKDrj4YvLtJRDkwSzzjFyyPr-z8gtz7d5oWORGkEMIozzBG0Akq46Ui1cOcZcT9UAsKOm7JMqojRBEmoZBXgo8pQz1a1yoRzOpPdHMtlasdDrGBtpo"
-            alt="Led Zeppelin IV" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <img src="/tienda_vinilovers (1).jpg"
+            alt="Tienda Vinilovers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">Led Zeppelin IV</span>
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Vinilovers · Nuestra tienda</span>
           </div>
         </div>
 
-        <!-- Item 5 -->
+        <!-- Item 2 — Tienda foto 2 -->
         <div class="gallery-item group overflow-hidden border border-surface-bright relative">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_ET4lo1fLHMtvtVVOhSela0CTeHfgtsd_e5EmkYSgwS3TW9pvAtfzjYIltY9UaMVxmTwJR1bUdfYT9iM0FOElAYzsL9P1gnIYzmJicXIGZ7RG5mxx3Ng8yfYH7g6nYZ8oxBrgxJxqE4eT2vkC0v3iF2lBSxh3rzywqGTMrwVsaA5e2WRm_uvbkuxpyDoxzyjLi4yWxioW_PXIks1rscPozIQ3COVz64Y_PiiXZCLo5yasqtqdjkZrF_8REmZfNK9l50o_s08vsqw"
-            alt="The Frontline - Prince" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <img src="/tienda_vinilovers (2).jpg"
+            alt="Interior Vinilovers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">The Frontline · Prince</span>
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Vinilovers · Interior</span>
           </div>
         </div>
 
-        <!-- Item 6 — tocadiscos local image tall -->
+        <!-- Item 3 — Tienda foto 3 -->
+        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
+          <img src="/tienda_vinilovers (3).jpg"
+            alt="Colección Vinilovers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Vinilovers · Colección</span>
+          </div>
+        </div>
+
+        <!-- Item 4 — Ubicación de la tienda -->
         <div class="gallery-item gallery-item--tall group overflow-hidden border border-surface-bright relative">
-          <img src="/TD00004-TOCADISCOS-TANLANIN-NEGRO.png"
-            alt="Tocadiscos Tanlanin Negro" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
+          <img src="/ubicacion_de_tienda_vinilovers.webp"
+            alt="Ubicación Vinilovers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">Tanlanin Negro · Tocadiscos</span>
+            <span class="text-white text-xs font-condensed uppercase tracking-widest">Vinilovers · Ubicación</span>
           </div>
-        </div>
-
-        <!-- Item 7 -->
-        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVL_dU3zLjv1as_Am9IFfjUr5QaKK7WV5M5hTyun7svkd2MNifBAKEiMx7gxC7HG0fHyUPm_Kp254oQt8XLv3QtIXxzigY2vH1jCX7jcbpH3E4EAiwAIRZaCx1TqBZwRy_51oAX1MKPkfRvdD62vtoDk4X6Il__YZ9ROzaIgZO9mXP8MVt3Hy5-H1liTkZkPZNiCzfXW9NR7LiAIdNn-95eCGtOkU8quRdDec8nTybvfqjXGsBm-hRUB9ff94ytm15bRl1JEqq1ww"
-            alt="Marshall Stanmore III" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">Marshall Stanmore III</span>
-          </div>
-        </div>
-
-        <!-- Item 8 -->
-        <div class="gallery-item group overflow-hidden border border-surface-bright relative">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqVCDf_vrAIxcpjxRKbKgxQY8WSzIZ6ysA8ePD6YBbazlJpekQa4P7TgxID4bkMnLS7R1BJ0VIQ7b_2XpAG__uuBSnzOecID-NFzATVdgdwr8iT0JsiWN7TBQgz_xlxbw0u7bKLzmMv1FaOlf5FlDfULNBeuD31UuILY9OU5EzPPVOCCUo4VJ2llcyH0CLQ16xy5mUCyF2m8qcMtQYGBVqPrctbjBcC5wQD1k66qon5Wes43h6qJ7H-XnwuCNYKg_NPpzFipV9XLE"
-            alt="Nirvana Grunge Tee" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 flex items-end p-4 opacity-0 group-hover:opacity-100">
-            <span class="text-white text-xs font-condensed uppercase tracking-widest">Grunge Classic · Nirvana</span>
-          </div>
-        </div>
-
-        <!-- Item 9 — logo -->
-        <div class="gallery-item group overflow-hidden border border-surface-bright relative bg-surface-container flex items-center justify-center p-8">
-          <img src="/logo-cuadrado.jpg"
-            alt="Vinilovers Logo" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700">
         </div>
 
       </div>
