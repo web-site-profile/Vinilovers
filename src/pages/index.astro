@@ -122,11 +122,11 @@ const productosPorCategoria = categorias.map(cat => {
       <!-- Product Grid -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         {prods.length > 0 ? (
-          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-md">
+          <div class="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-md">
             {prods.map(p => (
               <ProductCard producto={{
-                id: p.id,
-                idProducto: p.id,
+                id: p.slug,
+                idProducto: p.slug.toUpperCase(),
                 nombre: p.data.title,
                 artista: p.data.artista,
                 precio: p.data.precio,

@@ -51,15 +51,15 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappText}`;
   <div class="p-md flex flex-col flex-grow">
     <h4 class="font-headline-md text-primary text-[18px] mb-xs uppercase">{producto.nombre}</h4>
     <p class="font-body-md text-on-surface-variant text-sm mb-md italic">{producto.artista}</p>
-    <div class="mt-auto flex justify-between items-center">
-      <span class="font-headline-md text-on-surface">{precioFormateado}</span>
+    <div class="mt-auto flex justify-between items-center gap-1">
+      <span class="font-headline-md text-on-surface text-xs sm:text-base">{precioFormateado}</span>
       <a 
         href={whatsappLink} 
         target="_blank" 
         rel="noopener noreferrer"
-        class="bg-secondary-container text-white text-sm px-sm py-2 font-label-md uppercase tracking-wider transform transition-all duration-200 hover:scale-105 hover:font-bold active:scale-95 inline-flex items-center justify-center"
+        class="bg-secondary-container text-white text-[9px] sm:text-sm px-2 sm:px-sm py-1 sm:py-2 font-label-md uppercase tracking-wider transform transition-all duration-200 hover:scale-105 hover:font-bold active:scale-95 inline-flex items-center justify-center"
       >
-        <span>Comprar</span><i class="fab fa-whatsapp ml-2"></i>
+        <span>Comprar</span><i class="fab fa-whatsapp ml-1 sm:ml-2"></i>
       </a>
     </div>
   </div>

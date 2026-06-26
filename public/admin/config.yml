@@ -1,11 +1,8 @@
 backend:
-  name: github
-  repo: web-site-profile/Vinilovers
+  name: git-gateway
   branch: main
-  base_url: https://vinilovers.netlify.app
-  auth_endpoint: api/auth
 
-# Backend local para desarrollo (se ignora en produccion)
+# Habilita el backend local para pruebas sin Netlify (comentar en producción)
 local_backend: true
 
 # Almacenamiento de medios
