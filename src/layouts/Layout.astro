@@ -25,6 +25,16 @@ const { title = 'Vinilovers - Tienda de Vinilos' } = Astro.props;
   <link rel="icon" href="/favicoin.png" type="image/png">
   <!-- Netlify Identity Widget (requerido para Decap CMS) -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-04PNZ3NDDT"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-04PNZ3NDDT');
+  </script>
 </head>
 
 <body class="font-sans antialiased text-on-surface bg-surface overflow-x-hidden">
