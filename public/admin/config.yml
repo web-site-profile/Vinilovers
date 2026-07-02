@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: master
+  branch: master # ¡Asegúrate que sea master!
 
 # Habilita el backend local para pruebas sin Netlify (comentar en producción)
 local_backend: true

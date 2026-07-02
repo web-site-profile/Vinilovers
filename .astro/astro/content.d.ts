@@ -146,14 +146,14 @@ declare module 'astro:content' {
   slug: "disco";
   body: string;
   collection: "categorias";
-  data: InferEntrySchema<"categorias">
+  data: any
 } & { render(): Render[".md"] };
 "tocadiscos.md": {
 	id: "tocadiscos.md";
   slug: "tocadiscos";
   body: string;
   collection: "categorias";
-  data: InferEntrySchema<"categorias">
+  data: any
 } & { render(): Render[".md"] };
 };
 "productos": {
@@ -162,336 +162,539 @@ declare module 'astro:content' {
   slug: "dv00001";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00002.md": {
 	id: "dv00002.md";
   slug: "dv00002";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00003.md": {
 	id: "dv00003.md";
   slug: "dv00003";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00004.md": {
 	id: "dv00004.md";
   slug: "dv00004";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00005.md": {
 	id: "dv00005.md";
   slug: "dv00005";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00006.md": {
 	id: "dv00006.md";
   slug: "dv00006";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00007.md": {
 	id: "dv00007.md";
   slug: "dv00007";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00008.md": {
 	id: "dv00008.md";
   slug: "dv00008";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00009.md": {
 	id: "dv00009.md";
   slug: "dv00009";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00010.md": {
 	id: "dv00010.md";
   slug: "dv00010";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00011.md": {
 	id: "dv00011.md";
   slug: "dv00011";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00012.md": {
 	id: "dv00012.md";
   slug: "dv00012";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00013.md": {
 	id: "dv00013.md";
   slug: "dv00013";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00014.md": {
 	id: "dv00014.md";
   slug: "dv00014";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00015.md": {
 	id: "dv00015.md";
   slug: "dv00015";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00016.md": {
 	id: "dv00016.md";
   slug: "dv00016";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00017.md": {
 	id: "dv00017.md";
   slug: "dv00017";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00018.md": {
 	id: "dv00018.md";
   slug: "dv00018";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00019.md": {
 	id: "dv00019.md";
   slug: "dv00019";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00020.md": {
 	id: "dv00020.md";
   slug: "dv00020";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00021.md": {
 	id: "dv00021.md";
   slug: "dv00021";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00022.md": {
 	id: "dv00022.md";
   slug: "dv00022";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00023.md": {
 	id: "dv00023.md";
   slug: "dv00023";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00024.md": {
 	id: "dv00024.md";
   slug: "dv00024";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00025.md": {
 	id: "dv00025.md";
   slug: "dv00025";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00026.md": {
 	id: "dv00026.md";
   slug: "dv00026";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00027.md": {
 	id: "dv00027.md";
   slug: "dv00027";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00028.md": {
 	id: "dv00028.md";
   slug: "dv00028";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00029.md": {
 	id: "dv00029.md";
   slug: "dv00029";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00030.md": {
 	id: "dv00030.md";
   slug: "dv00030";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00031.md": {
 	id: "dv00031.md";
   slug: "dv00031";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00032.md": {
 	id: "dv00032.md";
   slug: "dv00032";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00033.md": {
 	id: "dv00033.md";
   slug: "dv00033";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00034.md": {
 	id: "dv00034.md";
   slug: "dv00034";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00035.md": {
 	id: "dv00035.md";
   slug: "dv00035";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00036.md": {
 	id: "dv00036.md";
   slug: "dv00036";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00037.md": {
 	id: "dv00037.md";
   slug: "dv00037";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00038.md": {
 	id: "dv00038.md";
   slug: "dv00038";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00039.md": {
 	id: "dv00039.md";
   slug: "dv00039";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00040.md": {
 	id: "dv00040.md";
   slug: "dv00040";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00041.md": {
 	id: "dv00041.md";
   slug: "dv00041";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00042.md": {
 	id: "dv00042.md";
   slug: "dv00042";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "dv00043.md": {
 	id: "dv00043.md";
   slug: "dv00043";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
+} & { render(): Render[".md"] };
+"dv00044.md": {
+	id: "dv00044.md";
+  slug: "dv00044";
+  body: string;
+  collection: "productos";
+  data: any
 } & { render(): Render[".md"] };
 "dv00045.md": {
 	id: "dv00045.md";
   slug: "dv00045";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
-"td00002.md": {
-	id: "td00002.md";
-  slug: "td00002";
+"dv00046.md": {
+	id: "dv00046.md";
+  slug: "dv00046";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
+} & { render(): Render[".md"] };
+"dv00048.md": {
+	id: "dv00048.md";
+  slug: "dv00048";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00049.md": {
+	id: "dv00049.md";
+  slug: "dv00049";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00050.md": {
+	id: "dv00050.md";
+  slug: "dv00050";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00051.md": {
+	id: "dv00051.md";
+  slug: "dv00051";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00052.md": {
+	id: "dv00052.md";
+  slug: "dv00052";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00053.md": {
+	id: "dv00053.md";
+  slug: "dv00053";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00054.md": {
+	id: "dv00054.md";
+  slug: "dv00054";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00055.md": {
+	id: "dv00055.md";
+  slug: "dv00055";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00056.md": {
+	id: "dv00056.md";
+  slug: "dv00056";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00057.md": {
+	id: "dv00057.md";
+  slug: "dv00057";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00058.md": {
+	id: "dv00058.md";
+  slug: "dv00058";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00059.md": {
+	id: "dv00059.md";
+  slug: "dv00059";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00060.md": {
+	id: "dv00060.md";
+  slug: "dv00060";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00061.md": {
+	id: "dv00061.md";
+  slug: "dv00061";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00062.md": {
+	id: "dv00062.md";
+  slug: "dv00062";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00063.md": {
+	id: "dv00063.md";
+  slug: "dv00063";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00064.md": {
+	id: "dv00064.md";
+  slug: "dv00064";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00065.md": {
+	id: "dv00065.md";
+  slug: "dv00065";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00066.md": {
+	id: "dv00066.md";
+  slug: "dv00066";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"dv00067.md": {
+	id: "dv00067.md";
+  slug: "dv00067";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"td00001.md": {
+	id: "td00001.md";
+  slug: "td00001";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"td000010.md": {
+	id: "td000010.md";
+  slug: "td000010";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"td000011.md": {
+	id: "td000011.md";
+  slug: "td000011";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"td000012.md": {
+	id: "td000012.md";
+  slug: "td000012";
+  body: string;
+  collection: "productos";
+  data: any
 } & { render(): Render[".md"] };
 "td00003.md": {
 	id: "td00003.md";
   slug: "td00003";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "td00004.md": {
 	id: "td00004.md";
   slug: "td00004";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
 } & { render(): Render[".md"] };
 "td00005.md": {
 	id: "td00005.md";
   slug: "td00005";
   body: string;
   collection: "productos";
-  data: InferEntrySchema<"productos">
+  data: any
+} & { render(): Render[".md"] };
+"td00006.md": {
+	id: "td00006.md";
+  slug: "td00006";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"td00007.md": {
+	id: "td00007.md";
+  slug: "td00007";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"td00008.md": {
+	id: "td00008.md";
+  slug: "td00008";
+  body: string;
+  collection: "productos";
+  data: any
+} & { render(): Render[".md"] };
+"td00009.md": {
+	id: "td00009.md";
+  slug: "td00009";
+  body: string;
+  collection: "productos";
+  data: any
 } & { render(): Render[".md"] };
 };
 
@@ -503,5 +706,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = typeof import("./../../src/content/config.js");
+	export type ContentConfig = never;
 }
